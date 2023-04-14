@@ -1,0 +1,53 @@
+openapi: 3.0.0
+info:
+  title: "Sample #3 Product Server"
+  version: 1.0.0
+
+paths:
+
+  /products:
+    get:
+      tags:
+        - "products"
+      summary: "Get a list of products."
+      operationId: "getProducts"
+      parameters:
+        - in: "query"
+          name: "category"
+          description: "Filter products by category"
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductModel'
+        '500':
+          description: "Internal Server Error"
+
+components:
+  schemas:
+
+    ProductModel:
+      required:
+        - productid
+      properties:
+        productid:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        price:
+          type: integer
+          format: double
+        stock:
+          type: integer
+          format: int32

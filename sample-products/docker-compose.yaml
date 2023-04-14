@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  apichamp:
+    image: apichamp/apichamp-core:1.1.0
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./specs:/app
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  mariadb:
+    image: mariadb:10.9
+    container_name: database_products
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: samplepwd
+    volumes:
+      # Be aware that for sample purposes the data is not mounted and therefore not consistent.
+      - ./db/storage:/var/lib/mysql:rw
+      - ./db/init-notes.sql:/docker-entrypoint-initdb.d/init-notes.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent"]

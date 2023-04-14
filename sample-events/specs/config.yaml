@@ -1,0 +1,74 @@
+servername: hello2
+
+operations:
+
+  'get /events':
+    fulfillments:
+      # Get data from a database
+      - name: ff1
+        type: READ
+        datasource: mydatabase
+        queries:
+          # Query when both filters are set
+          - if: param.startdate != "" && param.enddate != ""
+            query: Select e.*, count(a.name) as attendees from events as e LEFT JOIN event_attendees as a ON (e.id = a.event_id) WHERE e.startdate > :[param.startdate] AND e.enddate < :[param.enddate] GROUP BY e.id
+          # Query if only startdate is set
+          - if: param.startdate != ""
+            query: Select e.*, count(a.name) as attendees from events as e LEFT JOIN event_attendees as a ON (e.id = a.event_id) WHERE e.startdate > :[param.startdate] GROUP BY e.id
+          # Query if only enddate is set
+          - if: param.enddate != ""
+            query: Select e.*, count(a.name) as attendees from events as e LEFT JOIN event_attendees as a ON (e.id = a.event_id) WHERE e.enddate < :[param.enddate] GROUP BY e.id
+          # Default Query if no filter is sent
+          - query: Select e.*, count(a.name) as attendees from events as e LEFT JOIN event_attendees as a ON (e.id = a.event_id) GROUP BY e.id
+
+    mappings:
+      'EventModel':
+        id: ff1.id
+        title: ff1.title
+        description: ff1.desc
+        startdate: ff1.startdate
+        enddate: ff1.enddate
+        attendeesMax: ff1.max_attendees
+        attendeesCount: ff1.attendees
+
+  'post /events/attendees':
+    fulfillments:
+
+      ## Let´s get the max attendees allowed for this event
+      - name: ff1
+        type: READ
+        datasource: mydatabase
+        queries:
+          - query: Select max_attendees FROM events WHERE id = :[param.eventid]
+        exceptions:
+          # Throw exception if event does not exist
+          - if: ff1.max_attendees == null
+            statuscode: 404
+            message: Not found
+
+      ## Let´s check how often the even has been booked yet
+      - name: ff2
+        type: READ
+        datasource: mydatabase
+        queries:
+          - query: SELECT count(event_id) as attendees FROM event_attendees WHERE event_id = :[param.eventid] GROUP BY event_id
+        exceptions:
+          # Throw exception if event is already fully booked
+          - if: ff1.max_attendees <= ff2.attendees
+            statuscode: 409
+            message: The event is already fully booked
+
+      ## Save a new event attendee into the database
+      - name: ff3
+        type: UPDATE
+        datasource: mydatabase
+        queries:
+          - query: INSERT INTO event_attendees (event_id, name) VALUES (:[param.eventid], :[param.name])
+
+datasources:
+
+  mydatabase:
+    type: db
+    url: jdbc:mysql://mariadb:3306/sample-events
+    user: root
+    pwd: samplepwd

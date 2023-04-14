@@ -1,0 +1,88 @@
+openapi: 3.0.0
+info:
+  title: "Sample #2 Event Server"
+  version: 1.0.0
+
+paths:
+
+  /events:
+    get:
+      tags:
+        - "events"
+      summary: "Get a list of future events including an attendees count."
+      operationId: "getEvents"
+      parameters:
+        - in: "query"
+          name: "startdate"
+          description: "Filter events by startdate. Format: yyyy-MM-dd HH:mm:ss.s (2023-06-01 00:00:00.0)"
+          required: false
+          schema:
+            type: string
+        - in: "query"
+          name: "enddate"
+          description: "Filter events by enddate. Format: yyyy-MM-dd HH:mm:ss.s"
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventModel'
+        '500':
+          description: "Internal Server Error"
+
+  /events/attendees:
+    post:
+      tags:
+        - "attendees"
+      summary: Attend yourself to a certain event
+      parameters:
+        - in: "query"
+          name: "eventid"
+          required: true
+          schema:
+            type: integer
+        - in: "query"
+          name: "name"
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Attendeence sucessful
+        '404':
+          description: Event does not exist
+        '409':
+          description: The Event is fully booked
+
+components:
+  schemas:
+
+    EventModel:
+      required:
+        - "itemid"
+        - "type"
+      properties:
+        id:
+          type: "string"
+        title:
+          type: "string"
+        description:
+          type: "string"
+        startdate:
+          type: "string"
+        enddate:
+          type: "string"
+        attendeesMax:
+          type: "integer"
+          format: int32
+          description: "The max attendees allowed for this event."
+        attendeesCount:
+          type: "integer"
+          format: int32
+          description: "The number of attendees already registered."

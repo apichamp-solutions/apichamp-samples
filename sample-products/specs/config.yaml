@@ -1,0 +1,31 @@
+operations:
+
+  'get /products':
+    fulfillments:
+      - name: product
+        type: READ
+        datasource: demodb
+        queries:
+          - if: param.category != ""
+            query: SELECT id, name, details, category, price, stock FROM product WHERE category = :[param.category]
+          - query: SELECT id, name, details, category, price, stock FROM product
+
+    mappings:
+      'ProductModel':
+        productid: product.id
+        title: product.name
+        description: product.details
+        category: product.category
+        price: product.price
+        stock: product.stock
+
+datasources:
+
+  demodb:
+    type: db
+    url: jdbc:mysql://database_products:3306/sample-products
+    user: root
+    pwd: samplepwd
+
+settings:
+  debug: true
