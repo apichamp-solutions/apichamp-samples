@@ -25,4 +25,4 @@ If you have any questions or need help using APIchamp, please [contact us](https
 
 # License
 
-You may find the terms and conidtions to use the APICHAMP software under: [license information](https://www.apichamp.com/terms)
+By using APICHAMP software you agree to the terms and conditions under: [license information](https://www.apichamp.com/terms)
