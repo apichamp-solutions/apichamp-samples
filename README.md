@@ -22,3 +22,7 @@ Builds an easy GET /products rest endpoint from your database by using APIchamp.
 ## Support
 
 If you have any questions or need help using APIchamp, please [contact us](https://www.apichamp.com/contact).
+
+# License
+
+You may find the terms and conidtions to use the APICHAMP software under: [license information](https://www.apichamp.com/terms)
