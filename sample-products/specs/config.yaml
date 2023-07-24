@@ -23,7 +23,7 @@ datasources:
 
   demodb:
     type: db
-    url: jdbc:mysql://database_products:3306/sample-products
+    url: jdbc:mariadb://database_products:3306/sample-products
     user: root
     pwd: samplepwd
 
