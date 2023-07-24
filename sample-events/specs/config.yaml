@@ -69,6 +69,6 @@ datasources:
 
   mydatabase:
     type: db
-    url: jdbc:mysql://mariadb:3306/sample-events
+    url: jdbc:mariadb://mariadb:3306/sample-events
     user: root
     pwd: samplepwd
