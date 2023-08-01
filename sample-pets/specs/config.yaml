@@ -25,9 +25,9 @@ operations:
         type: update
         datasource: postdb
         queries:
-          - query: INSERT INTO pets_sample.pets (name, color) VALUES (:[body.name], :[body.tag])
+          - query: INSERT INTO pets_sample.pets (name, color) VALUES (:[body.name], :[body.species])
 
-      - name: getPet
+      - name: pets
         type: read
         datasource: postdb
         queries:
@@ -37,7 +37,7 @@ operations:
       'Pet':
         id: pets.id
         name: pets.name
-        species: pets.type
+        species: pets.species
 
   'get /pets/{petId}':
     fulfillments:
@@ -59,6 +59,12 @@ datasources:
     url: jdbc:postgresql://database_pets:5432/postgres
     user: postgres
     pwd: samplepwd
+
+authentication:
+  basicauth:
+    type: basicauth
+    user: demo
+    password: demo
 
 settings:
   debug: true

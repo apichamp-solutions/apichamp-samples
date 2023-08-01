@@ -1,19 +1,15 @@
-# sample-events
+# APIchamp Sample - Events
 
-Build an easy GET /products rest endpoint from your database by using APIchamp.
+This is a sample configuration for an APIchamp instance that provides API endpoints for managing events and event attendees. The instance is connected to a MariaDB database named `mydatabase`.
 
-> ‼️ APIchamp will be published soon on docker.hub ‼️<br>
-> Contact us if you want to get access now and become an early adopter 🚀: [Contact](https://www.apichamp.com/contact)
+## Endpoints
 
-## Requirements
+1. `GET /events`: Retrieves a list of events from the database. You can filter events by specifying the `startdate` and `enddate` query parameters. The response is mapped to the `EventModel` model, including the number of attendees and the maximum number of allowed attendees for each event.
 
-- To run the code samples locally you need to have docker installed.
-- The code sample comes with a full demo database and all files you need to run it.
+2. `POST /events/attendees`: Adds a new attendee to an event. Before adding an attendee, the fulfillment first checks the maximum number of allowed attendees for the event. If the event is already fully booked, it returns a `409 Conflict` error. If the event doesn't exist, a `404 Not Found` error is returned.
 
-## Usage
-1. Run `docker-compose up` from your terminal (Attention: You must run the docker-compose command from the sample-product directory)
-2. If docker has started successfully open https://localhost:8080/swagger-ui/index.html in your browser.
+## Data Source
 
-## Support
+The instance is connected to a MariaDB database (`mydatabase`) using the provided URL, username, and password.
 
-To learn more about APIchamp visit our [website](https://www.apichamp.com) or the [docs](https://doc.apichamp.com) for more information on the configuration.
+Feel free to use this configuration as a starting point for building your event management API. Customize it further based on your specific requirements and database schema. Enjoy using APIchamp! 🎉

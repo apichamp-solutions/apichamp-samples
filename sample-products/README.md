@@ -1,20 +1,17 @@
-# sample-products
+# APIchamp Sample Products
 
-Build an easy GET /products rest endpoint from your database by using APIchamp.
+This is another sample configuration for an APIchamp instance that provides API endpoints related to products. The instance is connected to a MariaDB database using basic authentication for added security.
 
-> ‼️ APIchamp will be published soon on docker.hub ‼️<br>
-> Contact us if you want to get access now and become an early adopter 🚀: [Contact](https://www.apichamp.com/contact)
+## Endpoints
 
-## Requirements
+1. `GET /products`: Retrieves a list of products from the database. You can filter products by specifying the `category` query parameter. The response is mapped to the `ProductModel` model.
 
-- To run the code samples locally you need to have docker installed.
-- The code sample comes with a full demo database and all files you need to run it. 
+## Data Source
 
-## Usage
-1. Run `docker-compose up` from your terminal (Attention: You must run the docker-compose command from the sample-product directory)
-2. If docker has started successfully open [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html) in your browser.
-3. Test the endpoints.
+The instance is connected to a MariaDB database (`demodb`) using the provided URL, username, and password.
 
-## Support
+## Debug Mode
 
-To learn more about APIchamp visit our [website](https://www.apichamp.com) or the [docs](https://doc.apichamp.com) for more information on the configuration.
+Debug mode is enabled, allowing you to test and debug your endpoints using the Swagger page at `http://localhost:8080/swagger-ui.html`.
+
+Feel free to customize this configuration to suit your specific use case and data source. Happy APIchamp-ing! 🚀
