@@ -68,5 +68,11 @@ authentications:
     user: demo
     password: demo
 
+authentication:
+  basicauth:
+    type: basicauth
+    user: demo
+    password: demo
+
 settings:
   debug: true
