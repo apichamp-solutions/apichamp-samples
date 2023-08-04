@@ -1,3 +1,5 @@
+specification: 1.0
+
 operations:
 
   'get /products':
@@ -25,7 +27,7 @@ datasources:
     type: db
     url: jdbc:mariadb://database_products:3306/sample-products
     user: root
-    pwd: samplepwd
+    password: samplepwd
 
 settings:
   debug: true

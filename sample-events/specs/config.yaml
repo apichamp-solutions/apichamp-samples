@@ -1,4 +1,4 @@
-servername: hello2
+specification: 1.0
 
 operations:
 
@@ -71,4 +71,7 @@ datasources:
     type: db
     url: jdbc:mariadb://mariadb:3306/sample-events
     user: root
-    pwd: samplepwd
+    password: samplepwd
+
+settings:
+  debug: true

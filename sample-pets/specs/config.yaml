@@ -1,3 +1,5 @@
+specification: 1.0
+
 operations:
   'get /pets':
     fulfillments:
@@ -9,7 +11,7 @@ operations:
             query: SELECT * FROM pets_sample.pets LIMIT :[param.limit]
           - query: SELECT * FROM pets_sample.pets
         exceptions:
-          - if: param.limit > 100
+          - if: param.limit != null && param.limit > 100
             statuscode: 412
             message: The limit must not be bigger then 100
 
@@ -25,9 +27,9 @@ operations:
         type: update
         datasource: postdb
         queries:
-          - query: INSERT INTO pets_sample.pets (name, color) VALUES (:[body.name], :[body.tag])
+          - query: INSERT INTO pets_sample.pets (name, color) VALUES (:[body.name], :[body.species])
 
-      - name: getPet
+      - name: pets
         type: read
         datasource: postdb
         queries:
@@ -37,7 +39,7 @@ operations:
       'Pet':
         id: pets.id
         name: pets.name
-        species: pets.type
+        species: pets.species
 
   'get /pets/{petId}':
     fulfillments:
@@ -58,7 +60,13 @@ datasources:
     type: db
     url: jdbc:postgresql://database_pets:5432/postgres
     user: postgres
-    pwd: samplepwd
+    password: samplepwd
+
+authentications:
+  basicauth:
+    type: basicauth
+    user: demo
+    password: demo
 
 settings:
   debug: true
