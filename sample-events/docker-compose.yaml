@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   apichamp:
-    image: apichamp/apichamp-core:1.2.3
+    image: apichamp/apichamp-core:1.3.4
     ports:
       - "8080:8080"
     volumes:
@@ -11,7 +11,7 @@ services:
         condition: service_healthy
 
   mariadb:
-    image: mariadb:10.9
+    image: mariadb:10.11.4
     container_name: database_sample_events
     ports:
       - "3306:3306"
@@ -22,4 +22,4 @@ services:
       - ./db/storage:/var/lib/mysql:rw
       - ./db/init-notes.sql:/docker-entrypoint-initdb.d/init-notes.sql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      test: mysqladmin --password=$$MARIADB_ROOT_PASSWORD ping

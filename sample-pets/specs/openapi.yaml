@@ -39,6 +39,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+
+      security:
+        - BasicAuth: []
     post:
       summary: Create a pet
       operationId: createPets
@@ -60,6 +63,8 @@ paths:
                 $ref: '#/components/schemas/Pet'
         '405':
           description: Invalid input
+      security:
+        - BasicAuth: []
   /pets/{petId}:
     get:
       summary: Info for a specific pet
@@ -87,6 +92,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      security:
+        - BasicAuth: []
 components:
   schemas:
     Pet:
@@ -115,3 +122,8 @@ components:
           format: int32
         message:
           type: string
+
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic

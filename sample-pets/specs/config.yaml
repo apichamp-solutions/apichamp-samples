@@ -1,3 +1,5 @@
+specification: 1.0
+
 operations:
   'get /pets':
     fulfillments:
@@ -9,7 +11,7 @@ operations:
             query: SELECT * FROM pets_sample.pets LIMIT :[param.limit]
           - query: SELECT * FROM pets_sample.pets
         exceptions:
-          - if: param.limit > 100
+          - if: param.limit != null && param.limit > 100
             statuscode: 412
             message: The limit must not be bigger then 100
 
@@ -58,9 +60,9 @@ datasources:
     type: db
     url: jdbc:postgresql://database_pets:5432/postgres
     user: postgres
-    pwd: samplepwd
+    password: samplepwd
 
-authentication:
+authentications:
   basicauth:
     type: basicauth
     user: demo
