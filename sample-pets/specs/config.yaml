@@ -68,7 +68,7 @@ authentications:
     user: demo
     password: demo
 
-authentication:
+authentications:
   basicauth:
     type: basicauth
     user: demo
