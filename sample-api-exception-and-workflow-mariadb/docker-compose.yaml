@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   apichamp:
-    image: apichamp/apichamp-core:1.4.0
+    image: apichamp/apichamp-core:1.4.1
     ports:
       - "8080:8080"
     volumes:

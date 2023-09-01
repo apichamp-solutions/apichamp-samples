@@ -1,6 +1,25 @@
 # APIchamp Sample - Events
 
-This is a sample configuration for an APIchamp instance that provides API endpoints for managing events and event attendees. The instance is connected to a MariaDB database named `mydatabase`.
+## Sample Learning Outcomes:
+
+By following this sample, you will achieve the following learning outcomes:
+
+- **API Development:**
+    - Build a Get list request and use the incoming parameters to filter your list
+    - Build a POST request including multiple fulfillment´s. Reuse values from fulfillment´s for logic
+    - Handle exceptions and return error status codes
+- **Data Source:**
+    - This sample will use a MariaDB datasource
+
+## Getting Started
+
+Open the terminal or your shell and run the following command:
+
+```docker-compose up```
+
+This will startup the apichamp dockercontainer as well with the including demo datasource. After your container is started you are able to test your API under:
+
+http://localhost:8080/swagger-ui.html
 
 ## Endpoints
 
