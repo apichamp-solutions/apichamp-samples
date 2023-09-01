@@ -5,9 +5,8 @@ This repository contains code samples that demonstrate how to use APIchamp to bu
 
 ## Getting Started
 
-This repository contains different samples which will help you to get started with APICHAMP. 
-Each folder includes a different set of usecases and to simply usage comes with everything you
-need to directly startup with docker.
+This repository offers a variety of samples to facilitate your APICHAMP journey.
+Each folder covers different use cases and is equipped with all the essentials for easy Docker-based setup.
 
 Go into the sample folder and follow the getting started section.
 
