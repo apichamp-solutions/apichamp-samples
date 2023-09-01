@@ -16,7 +16,8 @@ Open the terminal or your shell and run the following command:
 
 ```docker-compose up```
 
-This will startup the apichamp dockercontainer as well with the including demo datasource. After your container is started you are able to test your API under:
+This command will not only launch the APICHAMP Docker container but also provide a demo
+data source. Once the container is up and running, you can begin testing your API by visiting:
 
 http://localhost:8080/swagger-ui.html
 
