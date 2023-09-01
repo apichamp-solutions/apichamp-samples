@@ -1,6 +1,25 @@
-# APIchamp Sample Pets
+# APIchamp Sample Authenication
 
-This is a sample configuration for an APIchamp instance showcasing three API endpoints related to pets. The instance is set up to manage data from a PostgreSQL database using basic authentication for added security.
+## Sample Learning Outcomes:
+
+By following this sample, you will achieve the following learning outcomes:
+
+- **API Development:**
+  - Construct a straightforward API that accommodates GET and POST requests.
+  - Demonstrate a solid grasp of data mapping fundamentals in the context of API development.
+  - Secure your API's by implementing Basic Authentication across all of its endpoints.
+- **Data Source:**
+  - This sample will use a Postgres datasource
+
+## Getting Started
+
+Open the terminal or your shell and run the following command:
+
+```docker-compose up```
+
+This will startup the apichamp dockercontainer as well with the including demo datasource. After your container is started you are able to test your API under:
+
+http://localhost:8080/swagger-ui.html
 
 ## Endpoints
 

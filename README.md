@@ -3,6 +3,14 @@
 ## Overview
 This repository contains code samples that demonstrate how to use APIchamp to build your REST-APIs.
 
+## Getting Started
+
+This repository contains different samples which will help you to get started with APICHAMP. 
+Each folder includes a different set of usecases and to simply usage comes with everything you
+need to directly startup with docker.
+
+Go into the sample folder and follow the getting started section.
+
 ## Quick reference
 
 - **Where to file issues:**<br>
