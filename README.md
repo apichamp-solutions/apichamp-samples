@@ -28,7 +28,7 @@ Go into the sample folder and follow the getting started section.
   [GitHub](https://github.com/apichamp-solutions/apichamp-samples) offers some great samples helping you get started with APIchamp.<br>
 
 - **Docker Registry:** <br>
-  [DockerHub](https://hub.docker.com/repository/docker/apichamp/apichamp-core)<br>
+  [DockerHub](https://hub.docker.com/r/apichamp/apichamp-core)<br>
 
 - **Demo videos**:<br>
   Check our Youtube channel for some useful Getting Started Demo Videos:  [Video](https://www.youtube.com/watch?v=0yJySdx6PRQ)<br>
