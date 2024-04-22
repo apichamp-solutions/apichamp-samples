@@ -1,3 +1,3 @@
 /.idea
-/sample-api-exception-and-workflow-mariadb/db/storage/
-/sample-api-get-list-mariadb/db/storage/
+/events-api-mariadb/db/storage/
+/product-api-mariadb/db/storage/

@@ -37,9 +37,29 @@ paths:
           description: "Internal Server Error"
 
   /events/attendees:
+    get:
+      tags:
+        - "events"
+      summary: "Get the attendees for an event"
+      operationId: "getEventAttendees"
+      parameters:
+        - in: "query"
+          name: "eventid"
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttendeesModel'
+        '500':
+          description: "Internal Server Error"
     post:
       tags:
-        - "attendees"
+        - "events"
       summary: Attend yourself to a certain event
       parameters:
         - in: "query"
@@ -86,3 +106,11 @@ components:
           type: "integer"
           format: int32
           description: "The number of attendees already registered."
+
+    AttendeesModel:
+      required:
+        - "itemid"
+        - "type"
+      properties:
+        name:
+          type: "string"

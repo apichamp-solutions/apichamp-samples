@@ -1,0 +1,103 @@
+specification: 1.0
+
+operations:
+
+  #####################################
+  #### Endpoint: GET /pets
+  #####################################
+  'get /pets':
+    fulfillments:
+      - name: pets
+        type: read
+        datasource: postdb
+        instructions:
+          - if: PARAM(limit) != NULL()
+            query: SELECT * FROM pets_sample.pets LIMIT :[PARAM(limit)]
+          - query: SELECT * FROM pets_sample.pets
+        exceptions:
+          - if: PARAM(limit) != NULL() && PARAM(limit) > INTEGER(100)
+            statuscode: 412
+            message: The limit must not be bigger then 100
+
+    responses:
+      - name: success
+        default: true
+        statuscode: 200
+        schema:
+          list: VALUE(pets, $)
+          item:
+            id: VALUE(@, $.id)
+            name: VALUE(@, $.name)
+            species: VALUE(@, $.type)
+
+  #####################################
+  #### Endpoint: POST /pets
+  #####################################
+  'post /pets':
+    fulfillments:
+      - name: createPet
+        type: update
+        datasource: postdb
+        instructions:
+          - query: INSERT INTO pets_sample.pets (name, type) VALUES (:[VALUE(BODY(), $.name)], :[VALUE(BODY(), $.species)])
+
+      - name: pets
+        type: read
+        datasource: postdb
+        instructions:
+          - query: SELECT * FROM pets_sample.pets WHERE id = :[VALUE(createPet, $\[0\].id)]
+
+    responses:
+      - name: success
+        default: true
+        statuscode: 200
+        schema:
+          item:
+            id: VALUE(pets, $[0].id)
+            name: VALUE(pets, $[0].name)
+            species: VALUE(pets, $[0].type)
+
+  #####################################
+  #### Endpoint: GET /pets/{petId}
+  #####################################
+  'get /pets/{petId}':
+    fulfillments:
+      - name: pets
+        type: read
+        datasource: postdb
+        instructions:
+          - query: SELECT * FROM pets_sample.pets WHERE id = :[PARAM(petId)]
+        exceptions:
+          - if: VALUE(pets, $.id) != NULL()
+            statuscode: 412
+            message: Pet not found
+
+    responses:
+      - name: success
+        default: true
+        statuscode: 200
+        schema:
+          item:
+            id: VALUE(pets, $[0].id)
+            name: VALUE(pets, $[0].name)
+            species: VALUE(pets, $[0].type)
+
+
+#####################################
+#### Configuration
+#####################################
+datasources:
+  postdb:
+    type: db
+    url: jdbc:postgresql://database_pets:5432/postgres
+    user: postgres
+    password: samplepwd
+
+authentications:
+  basicauth:
+    type: basicauth
+    user: demo
+    password: demo
+
+settings:
+  debug: true

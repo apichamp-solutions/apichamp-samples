@@ -1,14 +1,11 @@
-# APIchamp Sample Products
+# product-api-mariadb
 
-## Sample Learning Outcomes:
+| Sample                                 | Endpoints | Datasources | Authentication | Infos                                                                           |
+|----------------------------------------|-----------|-------------|----------------|---------------------------------------------------------------------------------|
+| product-api-mariadb                    | 1         | mariab      | -              | Single & Simple GET endpoint                                                    |
 
-By following this sample, you will achieve the following learning outcomes:
-
-- **API Development:**
-    - Build a simple GET list and use different queries depending on a category filter.
-    - Build a straightforward mapping.
-- **Data Source:**
-    - This sample will use a MariaDB datasource
+## Requirements: 
+- [Docker Client](https://docs.docker.com/get-started/overview/)
 
 ## Getting Started
 
@@ -33,4 +30,4 @@ The instance is connected to a MariaDB database (`demodb`) using the provided UR
 
 Debug mode is enabled, allowing you to test and debug your endpoints using the Swagger page at `http://localhost:8080/swagger-ui.html`.
 
-Feel free to customize this configuration to suit your specific use case and data source. Happy APIchamp-ing! 🚀
+Feel free to customize this configuration to suit your specific use case and data source. Happy APICHAMP-ing! 🚀

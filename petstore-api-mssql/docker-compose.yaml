@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  apichamp:
+    image: apichamp/apichamp-core-dev:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./specs:/app
+    depends_on:
+      mssql:
+        condition: service_healthy
+
+  mssql:
+    build: mssql-docker/
+    container_name: database_sample_petstore_mock_mssql
+    ports:
+      - "1433:1433"
+    environment:
+      # Accept the licence terms from mssql in order to start this database. Use ACCEPT_EULA to accept them.
+      # ACCEPT_EULA: "Y"
+      SA_PASSWORD: "samplepwd!A1"
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "samplepwd!A1" -Q "SELECT * FROM pets.pets" -b -o /dev/null
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s

@@ -1,0 +1,291 @@
+specification: 1.0
+
+operations:
+
+  #####################################
+  #### Endpoint: GET /pet/findByStatus
+  #####################################
+  GET /pet/findByStatus:
+    fulfillments:
+      - name: pets
+        type: read
+        datasource: mydatabase
+        instructions:
+          - if: PARAM(status) != NULL()
+            query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id) WHERE p.status = :[PARAM(status)]
+          - query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id)
+
+      - name: pets_tags
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT * FROM pets.pets_tags
+
+      - name: pets_images
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT * FROM pets.pets_images
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+        schema:
+          list: VALUE(pets, $)
+          item:
+            id: VALUE(@, $.id)
+            name: VALUE(@, $.nickname)
+            category:
+              item:
+                id: VALUE(@, $.category_id)
+                name: VALUE(@, $.label)
+            tags:
+              list: VALUE(pets_tags, $[?(@.pet_id == :[VALUE(@,$.id)])])
+              item:
+                id: VALUE(@, $.id)
+                name: VALUE(@, $.name)
+            photoURLs:
+              list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
+              item: VALUE(@, $.imageurl)
+
+  #####################################
+  #### Endpoint: GET /pet/findByTags
+  #####################################
+  GET /pet/findByTags:
+    fulfillments:
+      - name: pets
+        type: read
+        datasource: mydatabase
+        instructions:
+          - if: PARAM(tags) != NULL()
+            query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id) WHERE p.id = (SELECT pet_id FROM pets.pets_tags WHERE name IN (:[PARAM(tags)]))
+          - query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id)
+
+      - name: pets_tags
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT * FROM pets.pets_tags
+
+      - name: pets_images
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT * FROM pets.pets_images
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+        schema:
+          list: VALUE(pets, $)
+          item:
+            id: VALUE(@, $.id)
+            name: VALUE(@, $.nickname)
+            category:
+              item:
+                id: VALUE(@, $.category_id)
+                name: VALUE(@, $.label)
+            tags:
+              list: VALUE(pets_tags, $[?(@.pet_id == :[VALUE(@,$.id)])])
+              item:
+                id: VALUE(@, $.id)
+                name: VALUE(@, $.name)
+            photoURLs:
+              list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
+              item: VALUE(@, $.imageurl)
+
+  #####################################
+  #### Endpoint: GET /pet/{petId}
+  #####################################
+  GET /pet/{petId}:
+    fulfillments:
+      - name: pets
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id) WHERE p.id = :[PARAM(petId)]
+        exceptions:
+          # Check if the select statement did receive exactly one entry
+          - if: SIZE(VALUE(pets, $)) != INTEGER(1)
+            statuscode: 404
+            message: No pet found
+
+      - name: pets_tags
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT * FROM pets.pets_tags
+
+      - name: pets_images
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT * FROM pets.pets_images
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+        schema:
+          object: VALUE(pets, $[0])
+          item:
+            id: VALUE(@, $.id)
+            name: VALUE(@, $.nickname)
+            category:
+              item:
+                id: VALUE(@, $.category_id)
+                name: VALUE(@, $.label)
+            tags:
+              list: VALUE(pets_tags, $[?(@.pet_id == :[VALUE(@,$.id)])])
+              item:
+                id: VALUE(@, $.id)
+                name: VALUE(@, $.name)
+            photoURLs:
+              list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
+              item: VALUE(@, $.imageurl)
+
+  #####################################
+  #### Endpoint: POST /pet/{petId}
+  #####################################
+  POST /pet:
+    fulfillments:
+      # Check if category exists
+      - name: check_category
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT id FROM pets.pets_category WHERE id = :[VALUE(BODY(), $.category.id)]
+        exceptions:
+          # Check if the select statement did receive exactly one entry
+          - if: VALUE(pets, id) != NULL()
+            statuscode: 404
+            message: Category not available
+          # Check if status is available, pending, status
+          - if: VALUE(BODY(), $.status) != TEXT(available) && VALUE(BODY(), $.status) != TEXT(pending) && VALUE(BODY(), $.status) != TEXT(sold)
+            statuscode: 412
+            message: Status must be available, pending or sold
+
+        # Add pet
+      - name: update_pet
+        type: update
+        datasource: mydatabase
+        instructions:
+          - query: INSERT INTO pets.pets (nickname, category_id, status) VALUES (:[VALUE(BODY(), $.name)], :[VALUE(BODY(), $.category.id)], :[VALUE(BODY(), $.status)])
+
+        # Add pet_tags
+      - name: update_tags
+        type: update
+        datasource: mydatabase
+        # Run this fulfillment if at least one tag is set
+        if: SIZE(VALUE(BODY(), $.tags)) > INTEGER(0)
+        instructions:
+          - query: INSERT INTO pets.pets_tags (pet_id, name) VALUES (:[VALUE(update_pet, $\[0\].GENERATED_KEYS)], :[VALUE(BODY(), $.tags\[0\].name)])
+
+        # Add photoUrls
+      - name: update_images
+        type: update
+        datasource: mydatabase
+        # Run this fulfillment if at least one tag is set
+        if: SIZE(VALUE(BODY(), $.photoUrls)) > INTEGER(0)
+        instructions:
+          - query: INSERT INTO pets.pets_images (pet_id, imageurl) VALUES (:[VALUE(update_pet, $\[0\].GENERATED_KEYS)], :[VALUE(BODY(), $.photoUrls\[0\])])
+
+      - name: pets
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id) WHERE p.id = :[VALUE(update_pet, $\[0\].GENERATED_KEYS)]
+        exceptions:
+          # Check if the select statement did receive exactly one entry
+          - if: SIZE(VALUE(pets, $)) != INTEGER(1)
+            statuscode: 404
+            message: No pet found
+
+      - name: pets_tags
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT * FROM pets.pets_tags
+
+      - name: pets_images
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT * FROM pets.pets_images
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+        schema:
+          object: VALUE(pets, $[0])
+          item:
+            id: VALUE(@, $.id)
+            name: VALUE(@, $.nickname)
+            category:
+              item:
+                id: VALUE(@, $.category_id)
+                name: VALUE(@, $.label)
+            tags:
+              list: VALUE(pets_tags, $[?(@.pet_id == :[VALUE(@,$.id)])])
+              item:
+                id: VALUE(@, $.id)
+                name: VALUE(@, $.name)
+            photoURLs:
+              list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
+              item: VALUE(@, $.imageurl)
+
+  #####################################
+  #### Endpoint: DELETE /pet/{petId}
+  #####################################
+  DELETE /pet/{petId}:
+    fulfillments:
+
+      - name: check_pets
+        type: read
+        datasource: mydatabase
+        instructions:
+          - query: SELECT id FROM pets.pets WHERE id = :[PARAM(petId)]
+        exceptions:
+          - if: VALUE(check_pets, $[0].id) == NULL()
+            statuscode: 400
+            message: Invalid pet value
+
+      - name: delete_pets
+        type: update
+        datasource: mydatabase
+        instructions:
+          - query: DELETE FROM pets.pets WHERE id = :[PARAM(petId)]
+
+      - name: delete_tags
+        type: update
+        datasource: mydatabase
+        instructions:
+          - query: DELETE FROM pets.pets_tags WHERE pet_id = :[PARAM(petId)]
+
+      - name: delete_images
+        type: update
+        datasource: mydatabase
+        instructions:
+          - query: DELETE FROM pets.pets_images WHERE pet_id = :[PARAM(petId)]
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+
+#####################################
+#### Configuration
+#####################################
+datasources:
+
+  mydatabase:
+    type: db
+    url: jdbc:sqlserver://mssql;encrypt=false
+    user: sa
+    password: samplepwd!A1
+
+settings:
+  debug: true

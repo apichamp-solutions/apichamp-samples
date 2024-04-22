@@ -1,15 +1,11 @@
-# APIchamp Sample - Events
+# events-api-mariadb (APICHAMP Sample)
 
-## Sample Learning Outcomes:
+| Sample                                 | Endpoints | Datasources | Authentication | Infos                                                                           |
+|----------------------------------------|-----------|-------------|----------------|---------------------------------------------------------------------------------|
+| events-api-mariadb                     | 3         | mariadb     | -              | Simple Event-Server. Retrieve Events and attend until the event is fully booked |
 
-By following this sample, you will achieve the following learning outcomes:
-
-- **API Development:**
-    - Build a Get list request and use the incoming parameters to filter your list
-    - Build a POST request including multiple fulfillment´s. Reuse values from fulfillment´s for logic
-    - Handle exceptions and return error status codes
-- **Data Source:**
-    - This sample will use a MariaDB datasource
+## Requirements:
+- [Docker Client](https://docs.docker.com/get-started/overview/)
 
 ## Getting Started
 
@@ -32,4 +28,4 @@ http://localhost:8080/swagger-ui.html
 
 The instance is connected to a MariaDB database (`mydatabase`) using the provided URL, username, and password.
 
-Feel free to use this configuration as a starting point for building your event management API. Customize it further based on your specific requirements and database schema. Enjoy using APIchamp! 🎉
+Feel free to use this configuration as a starting point for building your event management API. Customize it further based on your specific requirements and database schema. Enjoy using APICHAMP! 🎉
