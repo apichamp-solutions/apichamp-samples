@@ -7,12 +7,12 @@ services:
     volumes:
       - ./specs:/app
     depends_on:
-      db:
+      postgres-pets:
         condition: service_healthy
 
-  db:
+  postgres-pets:
     image: postgres:latest
-    container_name: database_pets
+    container_name: postgres-pets
     ports:
       - "5432:5432"
     environment:
@@ -20,7 +20,6 @@ services:
     user: postgres
     volumes:
       # Be aware that for sample purposes the data is not mounted and therefore not consistent.
-      #- ./db/storage:/var/lib/postgresql/data:rw
       - ./db/init-script.sql:/docker-entrypoint-initdb.d/init-script.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready", "-d", "db_prod" ]

@@ -4,20 +4,24 @@
 |----------------------------------------|-----------|-------------|----------------|---------------------------------------------------------------------------------|
 | petstore-api-mssql                     | 5         | MSSQL       | -              | Petstore (Get, Save) with multiple SQL table relations in MSSQL                 |
 
+## Documentation
+Find the full documentation under: [docs.apichamp.com](https://docs.apichamp.com)
+
 ## Requirements:
 - [Docker Client](https://docs.docker.com/get-started/overview/)
 
-You must accept the MSSQL terms in order to use a mircosoft SQL instance. If you want to accept simply change the docker-compose.yaml file:
+> **You must accept the licence terms of MSSQL**: In order to use the MSSQL sample database provided with this sample you must read and accept the EULA in the docker-compose yaml file.
 ```
 # Accept the licence terms from mssql in order to start this database. Use ACCEPT_EULA to accept them.
 ACCEPT_EULA: "Y"
 ```
 
+
 ## Getting Started
 
 Open the terminal or your shell and run the following command:
 
-```docker-compose up```
+```docker compose up```
 
 This command will not only launch the APICHAMP Docker container but also provide a demo
 data source. Once the container is up and running, you can begin testing your API by visiting:

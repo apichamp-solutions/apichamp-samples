@@ -89,7 +89,7 @@ operations:
 datasources:
   postdb:
     type: db
-    url: jdbc:postgresql://database_pets:5432/postgres
+    url: jdbc:postgresql://postgres-pets:5432/postgres
     user: postgres
     password: samplepwd
 

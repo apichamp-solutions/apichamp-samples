@@ -7,11 +7,11 @@ services:
     volumes:
       - ./specs:/app
     depends_on:
-      mariadb:
+      mariadb-events:
         condition: service_healthy
 
-  mariadb:
-    image: mariadb:10.11.4
+  mariadb-events:
+    image: mariadb:10.11.7
     container_name: database_sample_events
     ports:
       - "3306:3306"

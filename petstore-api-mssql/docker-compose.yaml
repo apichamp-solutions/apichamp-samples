@@ -7,10 +7,10 @@ services:
     volumes:
       - ./specs:/app
     depends_on:
-      mssql:
+      mssql-petstore:
         condition: service_healthy
 
-  mssql:
+  mssql-petstore:
     build: mssql-docker/
     container_name: database_sample_petstore_mock_mssql
     ports:

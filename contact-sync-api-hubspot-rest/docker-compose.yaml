@@ -7,12 +7,12 @@ services:
     volumes:
       - ./specs:/app
     depends_on:
-      mariadb-product:
+      mariadb-contacts:
         condition: service_healthy
 
-  mariadb-product:
+  mariadb-contacts:
     image: mariadb:10.11.7
-    container_name: mariadb-product
+    container_name: database_sample_hubspot_sync
     ports:
       - "3306:3306"
     environment:

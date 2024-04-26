@@ -48,6 +48,7 @@ operations:
             photoURLs:
               list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
               item: VALUE(@, $.imageurl)
+            status: VALUE(@, $.id)
 
   #####################################
   #### Endpoint: GET /pet/findByTags
@@ -58,8 +59,8 @@ operations:
         type: read
         datasource: mydatabase
         instructions:
-          - if: PARAM(tags) != NULL()
-            query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id) WHERE p.id = (SELECT pet_id FROM pets.pets_tags WHERE name IN (:[PARAM(tags)]))
+          - if: PARAM(tag) != NULL()
+            query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id) WHERE p.id = (SELECT pet_id FROM pets.pets_tags WHERE name IN (:[PARAM(tag)]))
           - query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id)
 
       - name: pets_tags
@@ -95,6 +96,7 @@ operations:
             photoURLs:
               list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
               item: VALUE(@, $.imageurl)
+            status: VALUE(@, $.id)
 
   #####################################
   #### Endpoint: GET /pet/{petId}
@@ -145,9 +147,10 @@ operations:
             photoURLs:
               list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
               item: VALUE(@, $.imageurl)
+            status: VALUE(@, $.id)
 
   #####################################
-  #### Endpoint: POST /pet/{petId}
+  #### Endpoint: POST /pet
   #####################################
   POST /pet:
     fulfillments:
@@ -236,6 +239,7 @@ operations:
             photoURLs:
               list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
               item: VALUE(@, $.imageurl)
+            status: VALUE(@, $.id)
 
   #####################################
   #### Endpoint: DELETE /pet/{petId}
@@ -283,7 +287,7 @@ datasources:
 
   mydatabase:
     type: db
-    url: jdbc:sqlserver://mssql;encrypt=false
+    url: jdbc:sqlserver://mssql-petstore;encrypt=false
     user: sa
     password: samplepwd!A1
 

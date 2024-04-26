@@ -4,6 +4,9 @@
 |----------------------------------------|-----------|-------------|----------------|---------------------------------------------------------------------------------|
 | events-api-mariadb                     | 3         | mariadb     | -              | Simple Event-Server. Retrieve Events and attend until the event is fully booked |
 
+## Documentation
+Find the full documentation under: [docs.apichamp.com](https://docs.apichamp.com)
+
 ## Requirements:
 - [Docker Client](https://docs.docker.com/get-started/overview/)
 
@@ -11,7 +14,7 @@
 
 Open the terminal or your shell and run the following command:
 
-```docker-compose up```
+```docker compose up```
 
 This command will not only launch the APICHAMP Docker container but also provide a demo
 data source. Once the container is up and running, you can begin testing your API by visiting:
@@ -24,8 +27,10 @@ http://localhost:8080/swagger-ui.html
 
 2. `POST /events/attendees`: Adds a new attendee to an event. Before adding an attendee, the fulfillment first checks the maximum number of allowed attendees for the event. If the event is already fully booked, it returns a `409 Conflict` error. If the event doesn't exist, a `404 Not Found` error is returned.
 
+3. `GET /events/attendees`: Get a list of attendees for a specific event.
+
 ## Data Source
 
-The instance is connected to a MariaDB database (`mydatabase`) using the provided URL, username, and password.
+The instance is connected to a MariaDB database using the provided URL, username, and password.
 
 Feel free to use this configuration as a starting point for building your event management API. Customize it further based on your specific requirements and database schema. Enjoy using APICHAMP! 🎉

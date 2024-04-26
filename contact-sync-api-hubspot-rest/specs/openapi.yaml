@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  title: "APICHAMP Sample: Contact Hubspot Sync"
+  version: 1.0.0
+
+paths:
+
+  /contact:
+    get:
+      tags:
+        - "contact"
+      summary: Retrieve and sync a contact by email address.
+      description: |
+        Use this endpoint to retrieve a contact by email address from HubSpot and store the contact into the database.
+        Use a Hubspot Bearer Token for Authorization against the hubspot API.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Hubspot-Auth
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: true
+          description: The email address you want to query for.
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactModel'
+          description: Sync successful
+        '404':
+          description: No contacts available
+        '409':
+          description: Sync was not possible
+
+components:
+  schemas:
+
+    ContactModel:
+      required:
+        - id
+        - firstname
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        firstname:
+          type: string
+          example: Maria
+        lastname:
+          type: string
+          example: Le
+        email:
+          type: string
+          example: maria.le@example.com
+        last_sync:
+          type: string
+          format: datetime
+          description: "Return last sync time in format: yyyy-MM-dd HH:mm:ss.s"
+          example: 2024-04-23 14:01:00.000

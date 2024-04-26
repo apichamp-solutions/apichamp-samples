@@ -4,6 +4,9 @@
 |----------------------------------------|-----------|-------------|----------------|---------------------------------------------------------------------------------|
 | product-api-mariadb                    | 1         | mariab      | -              | Single & Simple GET endpoint                                                    |
 
+## Documentation
+Find the full documentation under: [docs.apichamp.com](https://docs.apichamp.com)
+
 ## Requirements: 
 - [Docker Client](https://docs.docker.com/get-started/overview/)
 
@@ -11,7 +14,7 @@
 
 Open the terminal or your shell and run the following command:
 
-```docker-compose up```
+```docker compose up```
 
 This command will not only launch the APICHAMP Docker container but also provide a demo
 data source. Once the container is up and running, you can begin testing your API by visiting:
