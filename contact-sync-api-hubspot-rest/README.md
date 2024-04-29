@@ -37,6 +37,23 @@ The instance is connected to two datasources:
 - The Hubspot REST-API to retrieve the contacts
 - A mariadb database which is used to store the contacts from hubspot. 
 
+### Database Tables (mariadb)
+
+#### events
+
+Empty by default. When you request a email contact on hubspot it will create a contact entry.
+
+| id | firstname | lastname                 | email                  | update_time |
+|----|-----------|--------------------------|------------------------|-------------|
+| 1  | Maria     | Johnson (Sample Contact) | emailmaria@hubspot.com | TIMESTAMP   |
+
+#### sync_history
+
+Not used in this sample yet
+
+| id | status | message | last_sync |
+|----|--------|---------|-----------|
+
 ## Debug Mode
 
 Debug mode is enabled, allowing you to test and debug your endpoints using the Swagger page at `http://localhost:8080/swagger-ui.html`.

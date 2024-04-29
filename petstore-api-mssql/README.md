@@ -44,6 +44,48 @@ http://localhost:8080/swagger-ui.html
 
 The instance is connected to a MSSQL database (`pets`) using the provided URL, username, and password.
 
+### Database Tables
+
+#### pets
+
+| id | nickname  | category_id | status    |
+|----|-----------|-------------|-----------|
+| 1  | Bello     | 1           | available |
+| 2  | Lucky     | 2           | available |
+| 3  | Annie     | 3           | pending   |
+| 4  | Ratti     | 4           | sold      |
+
+#### pets_category
+
+Pet category is fix. If you create a new pet choose a category from the list.
+
+| id | label |
+|----|-------|
+| 1  | Dog   |
+| 2  | Cat   |
+| 3  | Bird  |
+| 4  | Mouse |
+| 5  | Horse |
+
+#### pets_tags
+
+You are able to add custom tags for your pet. NOT a preset of hardcoded tags.
+
+| id | pet_id | name   |
+|----|--------|--------|
+| 1  | 1      | cute   |
+| 2  | 1      | noisy  |
+| 3  | 2      | miauw  |
+| 4  | 3      | yellow |
+| 5  | 4      | fast   |
+| 6  | 1      | brows  |
+
+#### pets_images
+
+| pet_id | imageurl                       |
+|--------|--------------------------------|
+| 1      | https://www.example.com/image1 |
+
 ## Debug Mode
 
 Debug mode is enabled, allowing you to test and debug your endpoints using the Swagger page at `http://localhost:8080/swagger-ui.html`.

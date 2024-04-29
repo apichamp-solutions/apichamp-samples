@@ -33,4 +33,23 @@ http://localhost:8080/swagger-ui.html
 
 The instance is connected to a MariaDB database using the provided URL, username, and password.
 
+### Database Tables
+
+#### events
+
+| id | title                      | desc             | startdate            | enddate              | max_attendees |
+|----|----------------------------|------------------|----------------------|----------------------|---------------|
+| 1  | Welcome New Year 2023      | Longer Text ...  | 2023-01-27 16:00:00  | 2023-01-27 19:28:39  | 20            |
+| 2  | Fresh Spring Company Event | Longer Text ...  | 2023-04-01 10:00:00  | 2023-04-01 18:00:00  | 50            |
+| 3  | Exclusive Business Sunset  | Longer Text ...  | 2023-07-27 20:00:00  | 2023-07-27 23:00:00  | 5             |
+| 4  | Christmas Party            | Longer Text ...  | 2023-12-10 18:00:00  | 2023-12-11 02:00:00  | 100           |
+
+#### event_attendees
+
+No default entry.
+
+| id | event_id | name  | attendee_time |
+|----|----------|-------|---------------|
+| 1  | 1        | Maria | Timestamp     | 
+
 Feel free to use this configuration as a starting point for building your event management API. Customize it further based on your specific requirements and database schema. Enjoy using APICHAMP! 🎉

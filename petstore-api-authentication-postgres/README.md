@@ -37,6 +37,18 @@ Basic authentication is enabled for this instance. You must provide the correct 
 
 The instance is connected to a PostgreSQL database (`postdb`) using the provided URL, username, and password.
 
+### Database Tables
+
+#### pets
+
+| id | name     | age | type     | breed            | color    | weight  | height | date_of_birth | created_at   | updated_at   |
+|----|----------|-----|----------|------------------|----------|---------|--------|---------------|--------------|--------------|
+| 1  | Whiskers | 4   | Cat      | Scottish Fold    | Gray     | 3.50    | 9.50   | 2017-06-12    | Create_Time  | Updated_time |
+| 2  | Barkley  | 2   | Dog      | Golden Retriever | Golden   | 25.30   | 22.00  | 2024-04-26    | Create_Time  | Updated_time |
+| 3  | Fluffy   | 1   | Rabbit   | Lionhead         | White    | 1.20    | 7.80   | 2019-02-05    | Create_Time  | Updated_time |
+| 4  | Spike    | 5   | Hedgehog | null             | Brown    | 0.80    | 4.50   | 2016-10-27    | Create_Time  | Updated_time |
+| 5  | Bubbles  | 3   | Fish     | Goldfish         | Orange   | 0.10    |        | 2020-08-14    | Create_Time  | Updated_time |
+
 ## Debug Mode
 
 Debug mode is enabled, allowing you to test and debug your endpoints using the Swagger page at `http://localhost:8080/swagger-ui.html`.

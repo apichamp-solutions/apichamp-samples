@@ -168,7 +168,7 @@ operations:
           # Check if status is available, pending, status
           - if: VALUE(BODY(), $.status) != TEXT(available) && VALUE(BODY(), $.status) != TEXT(pending) && VALUE(BODY(), $.status) != TEXT(sold)
             statuscode: 412
-            message: Status must be available, pending or sold
+            message: Field status must be available, pending or sold
 
         # Add pet
       - name: update_pet
