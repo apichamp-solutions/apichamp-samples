@@ -10,7 +10,7 @@ Find the full documentation under: [docs.apichamp.com](https://docs.apichamp.com
 ## Requirements:
 - [Docker Client](https://docs.docker.com/get-started/overview/)
 
-> **You must accept the licence terms of MSSQL**: Accept the ACCEPT_EULA in your docker-compose.yaml file.
+> :warning: **You must accept the licence terms of MSSQL**: Accept the ACCEPT_EULA in your docker-compose.yaml file.
 ```
 # Accept the licence terms in the docker-compose.yaml from mssql in order to start this database. Use ACCEPT_EULA to accept them.
 ACCEPT_EULA: "Y"
