@@ -58,7 +58,7 @@ paths:
       tags:
         - pet
       summary: Finds Pets by status
-      description: Multiple status values can be provided with comma separated strings
+      description: Multiple status values can be provided with comma separated strings. Use available, sold or pending for testing.
       operationId: findPetsByStatus
       parameters:
         - name: status
@@ -88,7 +88,7 @@ paths:
       tags:
         - pet
       summary: Finds Pets by tag
-      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      description: Multiple tags can be provided with comma separated strings. Use cute, noisy for testing.
       operationId: findPetsByTags
       parameters:
         - name: tag
@@ -113,7 +113,7 @@ paths:
       tags:
         - pet
       summary: Find pet by ID
-      description: Returns a single pet
+      description: Returns a single pet. Use 1 to 4 for testing.
       operationId: getPetById
       parameters:
         - name: petId
