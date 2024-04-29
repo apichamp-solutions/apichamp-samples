@@ -1,0 +1,90 @@
+specification: 1.0
+
+operations:
+
+  #####################################
+  #### Endpoint: GET /contact
+  #####################################
+  'get /contact':
+    fulfillments:
+      # Retrieve contact list from hubspot
+      - name: hubspot
+        type: READ
+        datasource: hubspot-api
+        instructions:
+          - request:
+              url: "https://api.hubapi.com/crm/v3/objects/contacts/batch/read"
+              httpType: POST
+              header:
+                - "Authorization: :[PARAM(Hubspot-Auth)]"
+              body:
+                contentType: json
+                schema:
+                  idProperty: TEXT(email)
+                  inputs:
+                    list: LIST(1)
+                    item:
+                      id: PARAM(email)
+        exceptions:
+          # Throw exception if results id is 1
+          - if: SIZE(VALUE(hubspot, $.results)) <= INTEGER(0)
+            statuscode: 404
+            message: No contact available
+
+      # Check if contact already exists
+      - name: available-contact
+        type: READ
+        datasource: mydatabase
+        instructions:
+          - query: SELECT * FROM contacts WHERE email like :[VALUE(hubspot, $.results\[0\].properties.email)]
+
+      # Insert it not exist yet
+      - name: contact-insert
+        type: UPDATE
+        datasource: mydatabase
+        if: VALUE(available-contact, $[0].id) == NULL())
+        instructions:
+          - query: INSERT INTO contacts (id, firstname, lastname, email) VALUES (:[VALUE(hubspot, $.results\[0\].id)], :[VALUE(hubspot, $.results\[0\].properties.firstname)], :[VALUE(hubspot, $.results\[0\].properties.lastname)], :[VALUE(hubspot, $.results\[0\].properties.email)])
+
+      # Update entry if it exists
+      - name: contact-update
+        type: UPDATE
+        datasource: mydatabase
+        if: VALUE(available-contact, $[0].id) != NULL())
+        instructions:
+          - query: UPDATE contacts SET firstname = :[VALUE(hubspot, $.results\[0\].properties.firstname)], lastname = :[VALUE(hubspot, $.results\[0\].properties.lastname)], email = :[VALUE(hubspot, $.results\[0\].properties.email)] WHERE id = :[VALUE(hubspot, $.results\[0\].id)]
+
+      # Get updated contact including sync time
+      - name: get-contact
+        type: READ
+        datasource: mydatabase
+        instructions:
+          - query: SELECT * FROM contacts WHERE email like :[VALUE(hubspot, $.results\[0\].properties.email)]
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+        schema:
+          id: VALUE(hubspot, $.results[0].id)
+          firstname: VALUE(hubspot, $.results[0].properties.firstname)
+          lastname: VALUE(hubspot, $.results[0].properties.lastname)
+          email: VALUE(hubspot, $.results[0].properties.email)
+          last_sync: VALUE(get-contact, $[0].update_time)
+
+#####################################
+#### Configuration
+#####################################
+datasources:
+
+  hubspot-api:
+    type: restapi
+
+  mydatabase:
+    type: db
+    url: jdbc:mariadb://mariadb-contacts:3306/sample-contacts
+    user: root
+    password: samplepwd
+
+settings:
+  debug: true

@@ -7,12 +7,12 @@ services:
     volumes:
       - ./specs:/app
     depends_on:
-      mariadb:
+      mariadb-contacts:
         condition: service_healthy
 
-  mariadb:
-    image: mariadb:10.11.4
-    container_name: database_sample_events
+  mariadb-contacts:
+    image: mariadb:10.11.7
+    container_name: database_sample_hubspot_sync
     ports:
       - "3306:3306"
     environment:
@@ -20,6 +20,6 @@ services:
     volumes:
       # Be aware that for sample purposes the data is not mounted and therefore not consistent.
       - ./db/storage:/var/lib/mysql:rw
-      - ./db/init-notes.sql:/docker-entrypoint-initdb.d/init-notes.sql
+      - ./db/init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql
     healthcheck:
       test: mysqladmin --password=$$MARIADB_ROOT_PASSWORD ping
