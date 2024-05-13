@@ -5,7 +5,7 @@
 | petstore-api-mssql                     | 5         | MSSQL       | -              | Petstore (Get, Save) with multiple SQL table relations in MSSQL                 |
 
 ## Documentation
-Find the full documentation under: [docs.apichamp.com](https://docs.apichamp.com)
+Find the full documentation here: [docs.apichamp.com](https://docs.apichamp.com)
 
 ## Requirements:
 - [Docker Client](https://docs.docker.com/get-started/overview/)
@@ -34,7 +34,7 @@ http://localhost:8080/swagger-ui.html
 
 2. `GET /pet/findByTags`: Finds pets by tag. This endpoint allows you to retrieve pets based on tags. You can provide multiple tags separated by commas as query parameters. The response is an array of pets mapped to the Pet model.
 
-3. `GET /pet/{petId}`: Find pet by ID. This endpoint allows you to retrieve details of a specific pet identified by its ID. The response will contain the details of the pet mapped to the Pet model.
+3. `GET /pet/{petId}`: Find pet by ID. This endpoint allows you to retrieve details about a specific pet identified by its ID. The response will contain the details of the pet mapped to the Pet model.
 
 4. `POST /pet`: Add a new pet to the store. This endpoint allows you to add a new pet to the store. The request body should contain the details of the pet to be added, following the Pet model. Upon successful addition, the response will contain details about the created pet.
 
@@ -57,7 +57,7 @@ The instance is connected to a MSSQL database (`pets`) using the provided URL, u
 
 #### pets_category
 
-Pet category is fix. If you create a new pet choose a category from the list.
+Pet category are preset in the database. If you create a new pet choose a category from the list.
 
 | id | label |
 |----|-------|

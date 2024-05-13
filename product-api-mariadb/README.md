@@ -6,7 +6,7 @@
 
 ## Documentation
 
-Find the full documentation under: [docs.apichamp.com](https://docs.apichamp.com)
+Find the full documentation here: [docs.apichamp.com](https://docs.apichamp.com)
 
 ## Requirements:
 

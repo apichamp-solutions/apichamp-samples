@@ -5,7 +5,7 @@
 | events-api-mariadb                     | 3         | mariadb     | -              | Simple Event-Server. Retrieve Events and attend until the event is fully booked |
 
 ## Documentation
-Find the full documentation under: [docs.apichamp.com](https://docs.apichamp.com)
+Find the full documentation here: [docs.apichamp.com](https://docs.apichamp.com)
 
 ## Requirements:
 - [Docker Client](https://docs.docker.com/get-started/overview/)

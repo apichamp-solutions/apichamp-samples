@@ -5,7 +5,7 @@
 | petstore-api-authentication-postgres   | 3         | Postgres    | Basic Auth     | Simple Get and Post with a basic auth security layer                            |
 
 ## Documentation
-Find the full documentation under: [docs.apichamp.com](https://docs.apichamp.com)
+Find the full documentation here: [docs.apichamp.com](https://docs.apichamp.com)
 
 ## Requirements:
 - [Docker Client](https://docs.docker.com/get-started/overview/)
