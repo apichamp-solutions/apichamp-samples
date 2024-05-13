@@ -1,14 +1,14 @@
 # contact-sync-api-hubspot-rest (APICHAMP Sample)
 
-| Sample                                 | Endpoints | Datasources                | Authentication       | Infos                                                                                                 |
-|----------------------------------------|-----------|----------------------------|----------------------|-------------------------------------------------------------------------------------------------------|
- contact-sync-api-hubspot-rest           | 1         | Hubspot API <br/> mariadb  | Bearer Hubspot Token | Endpoint will search for a contact from your hubspot using email and sync them into local database.   |
+| Sample                                 | Endpoints | Datasources                | Authentication       | Infos                                                                                                   |
+|----------------------------------------|-----------|----------------------------|----------------------|---------------------------------------------------------------------------------------------------------|
+ contact-sync-api-hubspot-rest           | 1         | Hubspot API <br/> mariadb  | Bearer Hubspot Token | Endpoint will search for a contact from your hubspot using email and sync them into the local database. |
 
-> **Security** For simplifications of this demo you are able to pass the Hubspot Bearer Token directly in the request. 
+> **Security** To simplify this demo you are able to pass the Hubspot Bearer Token directly in the request. 
 > The request itself is not secured.
 
 ## Documentation
-Find the full documentation under: [docs.apichamp.com](https://docs.apichamp.com)
+Find the full documentation here: [docs.apichamp.com](https://docs.apichamp.com)
 
 ## Requirements:
 - [Docker Client](https://docs.docker.com/get-started/overview/)
@@ -41,7 +41,7 @@ The instance is connected to two datasources:
 
 #### events
 
-Empty by default. When you request a email contact on hubspot it will create a contact entry.
+Empty by default. When you request an email contact on hubspot it will create a contact entry.
 
 | id | firstname | lastname                 | email                  | update_time |
 |----|-----------|--------------------------|------------------------|-------------|
