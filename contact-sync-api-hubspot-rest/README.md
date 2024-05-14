@@ -29,6 +29,7 @@ http://localhost:8080/swagger-ui.html
 ## Endpoints
 
 1. `GET /contact`: This endpoint searches for a contact by email on hubspot and stores them in your database. Use a Hubspot Bearer Token for Authorization against the hubspot API.
+2. `GET /contact/sync`: Get all contacts from hubspot and sync them into the local database. Use a Hubspot Bearer Token for Authorization against the hubspot API.
 
 ## Data Source
 

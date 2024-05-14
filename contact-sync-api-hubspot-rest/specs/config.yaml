@@ -72,6 +72,60 @@ operations:
           email: VALUE(hubspot, $.results[0].properties.email)
           last_sync: VALUE(get-contact, $[0].update_time)
 
+  #####################################
+  #### Endpoint: GET /contact/sync
+  #####################################
+  'get /contact/sync':
+    fulfillments:
+      # Retrieve contact list from hubspot
+      - name: hubspot
+        type: READ
+        datasource: hubspot-api
+        instructions:
+          - request:
+              url: "https://api.hubapi.com/crm/v3/objects/contacts?limit=10&archived=false"
+              httpType: GET
+              header:
+                - "Authorization: :[PARAM(Authorization)]"
+        exceptions:
+          # Throw exception if results id is 1
+          - if: SIZE(VALUE(hubspot, $.results)) <= INTEGER(0)
+            statuscode: 404
+            message: No contact available
+
+      - name: loop
+        type: LOOP
+        loop: VALUE(hubspot, $.results)
+        fulfillments:
+
+          # Check if contact already exists
+          - name: available-contact
+            type: READ
+            datasource: mydatabase
+            instructions:
+              - query: SELECT * FROM contacts WHERE email like :[VALUE(loop, $.properties.email)]
+
+          # Insert it not exist yet
+          - name: contact-insert
+            type: UPDATE
+            datasource: mydatabase
+            if: VALUE(available-contact, $[0].id) == NULL())
+            instructions:
+              - query: INSERT INTO contacts (id, firstname, lastname, email) VALUES (:[VALUE(loop, $.id)], :[VALUE(loop, $.properties.firstname)], :[VALUE(loop, $.properties.lastname)], :[VALUE(loop, $.properties.email)])
+
+          # Update entry if it exists
+          - name: contact-update
+            type: UPDATE
+            datasource: mydatabase
+            if: VALUE(available-contact, $[0].id) != NULL())
+            instructions:
+              - query: UPDATE contacts SET firstname = :[VALUE(loop, $.properties.firstname)], lastname = :[VALUE(loop, $.properties.lastname)], email = :[VALUE(loop, $.properties.email)] WHERE id = :[VALUE(loop, $.id)]
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+
 #####################################
 #### Configuration
 #####################################
