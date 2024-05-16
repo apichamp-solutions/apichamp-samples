@@ -39,6 +39,27 @@ paths:
         '409':
           description: Sync was not possible
 
+  /contact/sync:
+    get:
+      tags:
+        - "contact"
+      summary: Sync a contact
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Sync successful
+        '404':
+          description: No contacts available
+        '409':
+          description: Sync was not possible
+
 components:
   schemas:
 
