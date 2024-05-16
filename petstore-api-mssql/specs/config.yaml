@@ -48,7 +48,7 @@ operations:
             photoURLs:
               list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
               item: VALUE(@, $.imageurl)
-            status: VALUE(@, $.id)
+            status: VALUE(@, $.status)
 
   #####################################
   #### Endpoint: GET /pet/findByTags
@@ -96,7 +96,7 @@ operations:
             photoURLs:
               list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
               item: VALUE(@, $.imageurl)
-            status: VALUE(@, $.id)
+            status: VALUE(@, $.status)
 
   #####################################
   #### Endpoint: GET /pet/{petId}
@@ -147,7 +147,7 @@ operations:
             photoURLs:
               list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
               item: VALUE(@, $.imageurl)
-            status: VALUE(@, $.id)
+            status: VALUE(@, $.status)
 
   #####################################
   #### Endpoint: POST /pet
@@ -239,7 +239,7 @@ operations:
             photoURLs:
               list: VALUE(pets_images, $[?(@.pet_id == :[VALUE(@,$.id)])])
               item: VALUE(@, $.imageurl)
-            status: VALUE(@, $.id)
+            status: VALUE(@, $.status)
 
   #####################################
   #### Endpoint: DELETE /pet/{petId}
