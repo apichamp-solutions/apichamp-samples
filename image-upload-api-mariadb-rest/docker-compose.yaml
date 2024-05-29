@@ -1,6 +1,6 @@
 services:
   apichamp:
-    image: apichamp/apichamp-core-dev:1.5.2
+    image: apichamp/apichamp-core:latest
     ports:
       - "8080:8080"
     volumes:
