@@ -1,0 +1,34 @@
+openapi: 3.0.0
+info:
+  title: "Sample Image Upload"
+  version: 1.0.0
+
+paths:
+
+  /image:
+    post:
+      tags:
+        - "image"
+      operationId: uploadImage
+      summary: Upload an image and send it to your fileproviders api
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                # 'file' will be the field name in this multipart request
+                file:
+                  type: string
+                  format: binary
+                filesize:
+                  type: number
+      responses:
+        '200':
+          description: Image successfully uploaded
+        '403':
+          description: Invalid Authentification
+        '409':
+          description: This project already contains an openapi specification
+        '422':
+          description: Openapi Specification is not valid

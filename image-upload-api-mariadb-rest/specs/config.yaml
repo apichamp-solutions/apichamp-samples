@@ -1,0 +1,44 @@
+specification: 1.0
+
+operations:
+
+  'post /image':
+    fulfillments:
+
+      - name: analyze_openapi_file
+        type: READ
+        datasource: imagestorage_restapi
+        instructions:
+          - request:
+              # Replace URL with a real fileprovider or use a online mocking tool to test.
+              url: https://www.example.com
+              httpType: POST
+              header:
+                - "Content-Type: image/jpeg"
+              multipart:
+                file: MULTIPART_FILE(file)
+
+      - name: save_image_to_db
+        type: UPDATE
+        datasource: demodb
+        instructions:
+          - query: INSERT INTO images (filename, filesize) VALUES (:[MULTIPART_FILENAME(file)], :[PARAM(filesize)])
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+
+datasources:
+
+  imagestorage_restapi:
+    type: restapi
+
+  demodb:
+    type: db
+    url: jdbc:mariadb://mariadb-image:3306/sample-images
+    user: root
+    password: samplepwd
+
+settings:
+  debug: true
