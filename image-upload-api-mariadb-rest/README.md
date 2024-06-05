@@ -25,7 +25,7 @@ http://localhost:8080/swagger-ui.html
 
 ## Endpoints
 
-1. `POST /image`: Upload an image as a multipart file to the server.s
+1. `POST /image`: Upload an image as a multipart file to the server.
 
 ## Data Source
 
