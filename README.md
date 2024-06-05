@@ -9,13 +9,14 @@ With APICHAMP you are able to construct your fully working API connected to your
 
 ## SAMPLES
 
-| Sample                                | Endpoints | Datasources               | Authentication       | Infos                                                                                                   |
-|---------------------------------------|-----------|---------------------------|----------------------|---------------------------------------------------------------------------------------------------------|
-| contact-sync-api-hubspot-rest         | 1         | Hubspot API <br/> mariadb | Bearer Hubspot Token | Endpoint will search for a contact from your hubspot using email and sync them into the local database. |
-| events-api-mariadb                    | 3         | mariadb                   | -                    | Simple Event-Server. Retrieve Events and attend until the event is fully booked.                        |
-| petstore-api-authentication-postgres  | 3         | Postgres                  | Basic Auth           | Simple Get and Post with a basic auth security layer.                                                   |
-| petstore-api-mssql                    | 5         | MSSQL                     | -                    | Petstore (Get, Save) with multiple SQL table relations in MSSQL.                                        |
-| product-api-mariadb                   | 1         | mariab                    | -                    | Single & Simple GET endpoint.                                                                           |
+| Sample                               | Endpoints | Datasources               | Authentication       | Infos                                                                                                   |
+|--------------------------------------|-----------|---------------------------|----------------------|---------------------------------------------------------------------------------------------------------|
+| contact-sync-api-hubspot-rest        | 1         | Hubspot API <br/> mariadb | Bearer Hubspot Token | Endpoint will search for a contact from your hubspot using email and sync them into the local database. |
+| events-api-mariadb                   | 3         | mariadb                   | -                    | Simple Event-Server. Retrieve Events and attend until the event is fully booked.                        |
+| image-upload-api-mariadb-rest        | 1         | maria                     | -                    | Upload Image in a multipart request.                                                                    |
+| petstore-api-authentication-postgres | 3         | Postgres                  | Basic Auth           | Simple Get and Post with a basic auth security layer.                                                   |
+| petstore-api-mssql                   | 5         | MSSQL                     | -                    | Petstore (Get, Save) with multiple SQL table relations in MSSQL.                                        |
+| product-api-mariadb                  | 1         | mariab                    | -                    | One simple GET endpoint.                                                                                |
 
 ## Quick reference
 

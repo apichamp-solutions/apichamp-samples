@@ -2,3 +2,4 @@
 /events-api-mariadb/db/storage/
 /product-api-mariadb/db/storage/
 /contact-sync-api-hubspot-rest/db/storage/
+/image-upload-api-mariadb-rest/db/storage/
