@@ -30,7 +30,7 @@ http://localhost:8080/swagger-ui.html
 ## Data Source
 
 The instance is connected to a MariaDB database (`demodb`) using the provided URL, username, and password.
-Secondly the instance also sends a multipart request to simulate you saving the image on your filestorage
+Secondly, the instance also sends a multipart request to simulate you saving the image on your filestorage
 provider over a restapi.
 
 > The restapi currently sends a request to www.example.com. Replace this url with your filestorage provider or use
