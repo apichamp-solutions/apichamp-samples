@@ -20,7 +20,7 @@ With APICHAP you are able to construct your fully working API connected to your 
 
 ## Quick reference
 
-| [File issues](https://github.com/apichap-solutions/apichap-samples/issues) | [Documentation](https://doc.apichap.com/) | [DockerHub](https://hub.docker.com/r/apichap/apichap-core) | [Samples](https://github.com/apichap-solutions/apichap-samples) |
+| [File issues](https://github.com/apichap-solutions/apichap-samples/issues) | [Documentation](https://docs.apichap.com/) | [DockerHub](https://hub.docker.com/r/apichap/apichap-core) | [Samples](https://github.com/apichap-solutions/apichap-samples) |
 |------------------------------------------------------------------------------|--------------------------------------------|--------------------------------------------------------------|-------------------------------------------------------------------|
 
 ## Get in contact & Support
