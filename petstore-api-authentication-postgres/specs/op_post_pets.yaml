@@ -1,0 +1,34 @@
+operations:
+
+  'post /pets':
+
+    fulfillments:
+
+      - name: createPet
+        type: update
+        datasource: postdb
+        instructions:
+          - sql:
+              query: INSERT INTO pets_sample.pets (name, color) VALUES (?,?)
+              parameters:
+                - param: BODY($.name)
+                - param: BODY($.species)
+
+      - name: getPet
+        type: read
+        datasource: postdb
+        instructions:
+          - sql:
+              query: SELECT * FROM pets_sample.pets WHERE id = ?
+              parameters:
+                - param: VALUE(createPet, $[0].id)
+
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+        schema:
+          id: VALUE(getPet, $[0].id)
+          name: VALUE(getPet, $[0].name)
+          species: VALUE(getPet, $[0].color)

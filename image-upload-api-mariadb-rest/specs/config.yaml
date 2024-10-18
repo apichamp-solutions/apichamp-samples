@@ -10,19 +10,29 @@ operations:
         datasource: imagestorage_restapi
         instructions:
           - request:
-              # Replace URL with a real fileprovider or use a online mocking tool to test.
-              url: https://www.example.com
+              # Replace URL with a real fileprovider or use an online mocking tool to test.
+              #url: https://www.example.com
+              url: https://fileuploadapi.proxy.beeceptor.com
               httpType: POST
               header:
                 - "Content-Type: image/jpeg"
+              # We take the file received from our upload (via the MULTIPART methods) and create a new multipart request with a key called `multipart`
               multipart:
-                file: MULTIPART_FILE(file)
+                filepart:
+                  contentType: MULTIPART_FILE_CONTENTTYPE (file)
+                  file:
+                    name: MULTIPART_FILE_NAME(file)
+                    content: MULTIPART_FILE_CONTENT(file)
 
       - name: save_image_to_db
         type: UPDATE
         datasource: demodb
         instructions:
-          - query: INSERT INTO images (filename, filesize) VALUES (:[MULTIPART_FILENAME(file)], :[PARAM(filesize)])
+          - sql:
+              query: INSERT INTO images (filename, filesize) VALUES (?,?)
+              parameters:
+                - param: MULTIPART_FILE_NAME(file)
+                - param: PARAM(filesize)
 
     responses:
       - name: success
@@ -32,13 +42,15 @@ operations:
 datasources:
 
   imagestorage_restapi:
-    type: restapi
+    type: api
 
   demodb:
     type: db
     url: jdbc:mariadb://mariadb-image:3306/sample-images
     user: root
     password: samplepwd
+
+authentications: {}
 
 settings:
   debug: true

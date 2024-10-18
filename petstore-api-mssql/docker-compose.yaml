@@ -1,7 +1,7 @@
 version: "3.9"
 services:
-  apichamp:
-    image: apichamp/apichamp-core:latest
+  apichap:
+    image: apichap/apichap-core:latest
     ports:
       - "8080:8080"
     volumes:
@@ -17,7 +17,7 @@ services:
       - "1433:1433"
     environment:
       # Accept the licence terms from mssql in order to start this database. Use ACCEPT_EULA to accept them.
-      # ACCEPT_EULA: "Y"
+      ACCEPT_EULA: "Y"
       SA_PASSWORD: "samplepwd!A1"
     healthcheck:
       test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "samplepwd!A1" -Q "SELECT * FROM pets.pets" -b -o /dev/null

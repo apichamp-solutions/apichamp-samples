@@ -1,0 +1,120 @@
+operations:
+
+  #####################################
+  #### Endpoint: POST /pet
+  #####################################
+  POST /pet:
+    fulfillments:
+      # Check if category exists
+      - name: check_category
+        type: read
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: SELECT id FROM pets.pets_category WHERE id = ?
+              parameters:
+                - param: BODY($.category.id)
+        exceptions:
+          # Check if the select statement did receive exactly one entry
+          - if: VALUE(pets, id) != NULL()
+            statuscode: 404
+            message: Category not available
+          # Check if status is available, pending, status
+          - if: BODY($.status) != TEXT(available) && BODY($.status) != TEXT(pending) && BODY($.status) != TEXT(sold)
+            statuscode: 412
+            message: Field status must be available, pending or sold
+
+        # Add pet
+      - name: update_pet
+        type: update
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: INSERT INTO pets.pets (nickname, category_id, status) VALUES (?,?,?)
+              parameters:
+                - param: BODY($.name)
+                - param: BODY($.category.id)
+                - param: BODY($.status)
+
+      - name: loop_tags
+        type: loop
+        loop: BODY($.tags)
+        fulfillments:
+
+            # Add pet_tags
+          - name: update_tags
+            type: update
+            datasource: mydatabase
+            instructions:
+              - sql:
+                  query: INSERT INTO pets.pets_tags (pet_id, name) VALUES (?,?)
+                  parameters:
+                    - param: VALUE(update_pet, $[0].GENERATED_KEYS)
+                    - param: VALUE(loop_tags, $.name)
+
+      - name: loop_photos
+        type: loop
+        loop: BODY($.photoUrls)
+        fulfillments:
+
+            # Add photoUrls
+          - name: update_images
+            type: update
+            datasource: mydatabase
+            instructions:
+              - sql:
+                  query: INSERT INTO pets.pets_images (pet_id, imageurl) VALUES (?,?)
+                  parameters:
+                    - param: VALUE(update_pet, $[0].GENERATED_KEYS)
+                    - param: VALUE(loop_photos, $)
+
+      - name: pets
+        type: read
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id) WHERE p.id = ?
+              parameters:
+                - param: VALUE(update_pet, $[0].GENERATED_KEYS)
+        exceptions:
+          # Check if the select statement did receive exactly one entry
+          - if: SIZE(VALUE(pets, $)) != INTEGER(1)
+            statuscode: 404
+            message: No pet found
+
+      - name: pets_tags
+        type: read
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: SELECT * FROM pets.pets_tags
+
+      - name: pets_images
+        type: read
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: SELECT * FROM pets.pets_images
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+        schema:
+          object: VALUE(pets, $[0])
+          item:
+            id: VALUE(@, $.id)
+            name: VALUE(@, $.nickname)
+            category:
+              item:
+                id: VALUE(@, $.category_id)
+                name: VALUE(@, $.label)
+            tags:
+              list: VALUE(pets_tags, $[?(@.pet_id == ${VALUE(@,$.id)})])
+              item:
+                id: VALUE(@, $.id)
+                name: VALUE(@, $.name)
+            photoURLs:
+              list: VALUE(pets_images, $[?(@.pet_id == ${VALUE(@,$.id)})])
+              item: VALUE(@, $.imageurl)
+            status: VALUE(@, $.status)

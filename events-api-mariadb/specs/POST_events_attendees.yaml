@@ -1,0 +1,54 @@
+operations:
+
+  #####################################
+  #### Endpoint: POST /events/attendees
+  #####################################
+  'post /events/attendees':
+    fulfillments:
+
+      ## Let´s get the max attendees allowed for this event
+      - name: ff1
+        type: READ
+        datasource: mydatabase
+        instructions:
+          - sql:
+              sql:
+              query: Select max_attendees FROM events WHERE id = ?
+              parameters:
+                - param: PARAM(eventid)
+        exceptions:
+          # Throw exception if event does not exist
+          - if: VALUE(ff1, $[0].max_attendees) == NULL()
+            statuscode: 404
+            message: Event not available
+
+      ## Let´s check how often the even has been booked yet
+      - name: ff2
+        type: READ
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: SELECT count(event_id) as attendees FROM event_attendees WHERE event_id = ? GROUP BY event_id
+              parameters:
+                  - param: PARAM(eventid)
+        exceptions:
+          # Throw exception if event is already fully booked
+          - if: VALUE(ff1, $[0].max_attendees) <= VALUE(ff2, $[0].attendees)
+            statuscode: 409
+            message: The event is already fully booked
+
+      ## Save a new event attendee into the database
+      - name: ff3
+        type: UPDATE
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: INSERT INTO event_attendees (event_id, name) VALUES (?,?)
+              parameters:
+                - param: PARAM(eventid)
+                - param: PARAM(name)
+
+    responses:
+      - name: success
+        default: true
+        statuscode: 200

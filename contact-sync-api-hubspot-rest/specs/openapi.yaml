@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: "APICHAMP Sample: Contact Hubspot Sync"
+  title: "APICHAP Sample: Contact Hubspot Sync"
   version: 1.0.0
 
 paths:
@@ -47,7 +47,7 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: Authorization
+        - name: Hubspot-Auth
           in: header
           required: true
           schema:

@@ -1,11 +1,11 @@
-# events-api-mariadb (APICHAMP Sample)
+# events-api-mariadb (APICHAP Sample)
 
 | Sample                                 | Endpoints | Datasources | Authentication | Infos                                                                           |
 |----------------------------------------|-----------|-------------|----------------|---------------------------------------------------------------------------------|
 | events-api-mariadb                     | 3         | mariadb     | -              | Simple Event-Server. Retrieve Events and attend until the event is fully booked |
 
 ## Documentation
-Find the full documentation here: [docs.apichamp.com](https://docs.apichamp.com)
+Find the full documentation here: [docs.apichap.com](https://docs.apichap.com)
 
 ## Requirements:
 - [Docker Client](https://docs.docker.com/get-started/overview/)
@@ -16,7 +16,7 @@ Open the terminal or your shell and run the following command:
 
 ```docker compose up```
 
-This command will not only launch the APICHAMP Docker container but also provide a demo
+This command will not only launch the APICHAP Docker container but also provide a demo
 data source. Once the container is up and running, you can begin testing your API by visiting:
 
 http://localhost:8080/swagger-ui.html
@@ -52,4 +52,4 @@ No default entry.
 |----|----------|-------|---------------|
 | 1  | 1        | Maria | Timestamp     | 
 
-Feel free to use this configuration as a starting point for building your event management API. Customize it further based on your specific requirements and database schema. Enjoy using APICHAMP! 🎉
+Feel free to use this configuration as a starting point for building your event management API. Customize it further based on your specific requirements and database schema. Enjoy using APICHAP! 🎉

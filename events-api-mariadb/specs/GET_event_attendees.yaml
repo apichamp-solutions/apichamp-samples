@@ -1,0 +1,25 @@
+operations:
+
+  #####################################
+  #### Endpoint: GET /events/attendees
+  #####################################
+  'get /events/attendees':
+    fulfillments:
+
+      ## Let´s check how often the even has been booked yet
+      - name: attendees
+        type: READ
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: SELECT name FROM event_attendees WHERE event_id = ?
+              parameters:
+                - param: PARAM(eventid)
+
+    responses:
+      - name: success
+        default: true
+        statuscode: 200
+        schema:
+          list: VALUE(attendees, $)
+          item: VALUE(@, $.name)

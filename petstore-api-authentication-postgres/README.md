@@ -1,11 +1,11 @@
-# petstore-api-authentication-postgres (APICHAMP Sample)
+# petstore-api-authentication-postgres (APICHAP Sample)
 
 | Sample                                 | Endpoints | Datasources | Authentication | Infos                                                                           |
 |----------------------------------------|-----------|-------------|----------------|---------------------------------------------------------------------------------|
 | petstore-api-authentication-postgres   | 3         | Postgres    | Basic Auth     | Simple Get and Post with a basic auth security layer                            |
 
 ## Documentation
-Find the full documentation here: [docs.apichamp.com](https://docs.apichamp.com)
+Find the full documentation here: [docs.apichap.com](https://docs.apichap.com)
 
 ## Requirements:
 - [Docker Client](https://docs.docker.com/get-started/overview/)
@@ -16,7 +16,7 @@ Open the terminal or your shell and run the following command:
 
 ```docker compose up```
 
-This command will not only launch the APICHAMP Docker container but also provide a demo 
+This command will not only launch the APICHAP Docker container but also provide a demo 
 data source. Once the container is up and running, you can begin testing your API by visiting:
 
 http://localhost:8080/swagger-ui.html
@@ -53,4 +53,4 @@ The instance is connected to a PostgreSQL database (`postdb`) using the provided
 
 Debug mode is enabled, allowing you to test and debug your endpoints using the Swagger page at `http://localhost:8080/swagger-ui.html`.
 
-Feel free to customize this configuration to suit your specific use case and data source. Happy APICHAMP-ing! 🚀
+Feel free to customize this configuration to suit your specific use case and data source. Happy APICHAP-ing! 🚀
