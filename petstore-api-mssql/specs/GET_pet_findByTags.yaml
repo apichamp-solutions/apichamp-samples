@@ -1,0 +1,66 @@
+operations:
+
+  #####################################
+  #### Endpoint: GET /pet/findByTags
+  #####################################
+  GET /pet/findByTags:
+    fulfillments:
+      - name: pets
+        type: read
+        datasource: mydatabase
+        instructions:
+          - if: PARAM(tag) != NULL()
+            sql:
+              query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id) WHERE p.id IN (SELECT pet_id FROM pets.pets_tags WHERE name IN (?))
+              parameters:
+                - param: PARAM(tag)
+          - sql:
+              query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id)
+
+      - name: loop_pets
+        type: loop
+        loop: VALUE(pets, $)
+        fulfillments:
+
+          - name: pets_tags
+            type: read
+            datasource: mydatabase
+            index: VALUE(loop_pets, $.id)
+            instructions:
+              - sql:
+                  query: SELECT * FROM pets.pets_tags WHERE pet_id = ?
+                  parameters:
+                    - param: VALUE(loop_pets, $.id)
+
+          - name: pets_images
+            type: read
+            datasource: mydatabase
+            index: VALUE(loop_pets, $.id)
+            instructions:
+              - sql:
+                  query: SELECT * FROM pets.pets_images WHERE pet_id = ?
+                  parameters:
+                    - param: VALUE(loop_pets, $.id)
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+        schema:
+          list: VALUE(pets, $)
+          item:
+            id: VALUE(@, $.id)
+            name: VALUE(@, $.nickname)
+            category:
+              item:
+                id: VALUE(@, $.category_id)
+                name: VALUE(@, $.label)
+            tags:
+              list: VALUE_BY_INDEX(pets_tags, VALUE(@, $.id), $)
+              item:
+                id: VALUE(@, $.id)
+                name: VALUE(@, $.name)
+            photoURLs:
+              list: VALUE_BY_INDEX(pets_images, VALUE(@, $.id), $)
+              item: VALUE(@, $.imageurl)
+            status: VALUE(@, $.status)

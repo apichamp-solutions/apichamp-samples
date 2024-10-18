@@ -1,11 +1,11 @@
-# APICHAMP Samples
+# APICHAP Samples
 
 <p align="center">
-  <img src="./apichamp_logo.png" />
+  <img src="./apichap_logo.png" />
 </p>
 <br/>
 
-With APICHAMP you are able to construct your fully working API connected to your datasource with just a few steps. See the [project page](https://docs.apichamp.com) for documentations.
+With APICHAP you are able to construct your fully working API connected to your datasource with just a few steps. See the [project page](https://docs.apichap.com) for documentations.
 
 ## SAMPLES
 
@@ -20,19 +20,19 @@ With APICHAMP you are able to construct your fully working API connected to your
 
 ## Quick reference
 
-| [File issues](https://github.com/apichamp-solutions/apichamp-samples/issues) | [Documentation](https://doc.apichamp.com/) | [DockerHub](https://hub.docker.com/r/apichamp/apichamp-core) | [Samples](https://github.com/apichamp-solutions/apichamp-samples) |
+| [File issues](https://github.com/apichap-solutions/apichap-samples/issues) | [Documentation](https://doc.apichap.com/) | [DockerHub](https://hub.docker.com/r/apichap/apichap-core) | [Samples](https://github.com/apichap-solutions/apichap-samples) |
 |------------------------------------------------------------------------------|--------------------------------------------|--------------------------------------------------------------|-------------------------------------------------------------------|
 
 ## Get in contact & Support
 
 There are multiple ways to get in contact. Choose whatever suits you best. <br>
 - To get business related answers or request a demo, directly book a slot
-right [here](https://calendly.com/apichamp/apichamp-online-meeting).<br>
+right [here](https://calendly.com/apichap/apichap-online-meeting).<br>
 - Regarding technical questions, get in contact with our developers in
 our [Public Discord Channel](https://discord.gg/5guHjSca).<br>
-- Or simply write us an e-mail: [hello@apichamp.com](mailto://hello@apichamp.com).<br>
+- Or simply write us an e-mail: [hello@apichap.com](mailto://hello@apichap.com).<br>
 
 # License
 
-By using APICHAMP software you agree to the terms and conditions
-under: [license information](https://www.apichamp.com/terms)
+By using APICHAP software you agree to the terms and conditions
+under: [license information](https://www.apichap.com/terms)

@@ -1,0 +1,7 @@
+datasources:
+
+  mydatabase:
+    type: db
+    url: jdbc:mariadb://mariadb-events:3306/sample-events
+    user: root
+    password: samplepwd

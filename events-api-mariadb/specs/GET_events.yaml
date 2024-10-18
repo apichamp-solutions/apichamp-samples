@@ -1,0 +1,44 @@
+operations:
+
+  #####################################
+  #### Endpoint: GET /events
+  #####################################
+  'get /events':
+    fulfillments:
+
+      # Setup optional SQL filters
+      - name: prepare_events
+        type: generic
+        attributes:
+          - if: PARAM(startdate) != NULL()
+            startdateSQL: TEXT(AND e.startdate > ?)
+          - if: PARAM(enddate) != NULL()
+            enddateSQL: TEXT(AND e.enddate < ?)
+
+      # Get data from a database
+      - name: getEvents
+        type: READ
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: Select e.*, count(a.name) as attendees from events as e LEFT JOIN event_attendees as a ON (e.id = a.event_id) WHERE 1=1 ${ATTRIBUTE(startdateSQL)} ${ATTRIBUTE(enddateSQL)} GROUP BY e.id
+              parameters:
+                - if: PARAM(startdate) != NULL()
+                  param: PARAM(startdate)
+                - if: PARAM(enddate) != NULL()
+                  param: PARAM(enddate)
+
+    responses:
+      - name: success
+        default: true
+        statuscode: 200
+        schema:
+          list: VALUE(getEvents, $)
+          item:
+            id: VALUE(@, $.id)
+            title: VALUE(@, $.title)
+            description: VALUE(@, $.desc)
+            startdate: DATEFORMAT(VALUE(@, $.startdate), "yyyy-MM-dd'T'HH:mm:ss+XXX", "UTC")
+            enddate: DATEFORMAT(VALUE(@, $.enddate), "yyyy-MM-dd'T'HH:mm:ss+XXX", "UTC")
+            attendeesMax: VALUE(@, $.max_attendees)
+            attendeesCount: VALUE(@, $.attendees)

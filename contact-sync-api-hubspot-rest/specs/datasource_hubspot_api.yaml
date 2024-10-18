@@ -1,0 +1,4 @@
+datasources:
+
+  hubspot-api:
+    type: api

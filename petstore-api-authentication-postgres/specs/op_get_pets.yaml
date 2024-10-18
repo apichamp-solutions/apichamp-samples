@@ -1,0 +1,33 @@
+operations:
+  'get /pets':
+    fulfillments:
+
+      - type: generic
+        exceptions:
+          - if: PARAM(limit) > INTEGER(100)
+            statuscode: 412
+            message: The limit must not be bigger then 100
+
+      - name: pets
+        type: read
+        datasource: postdb
+        instructions:
+          - if: PARAM(limit) != NULL()
+            sql:
+              query: SELECT * FROM pets_sample.pets LIMIT ?
+              parameters:
+                - param: PARAM(limit)
+          - sql:
+              query: SELECT * FROM pets_sample.pets
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+        schema:
+          list: VALUE(pets, $)
+          item:
+            id: VALUE(@, $.id)
+            name: VALUE(@, $.name)
+            species: VALUE(@, $.type)
+

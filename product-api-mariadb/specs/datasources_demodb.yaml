@@ -1,0 +1,7 @@
+datasources:
+
+  demodb:
+    type: db
+    url: jdbc:mariadb://mariadb-product:3306/sample-products
+    user: root
+    password: samplepwd

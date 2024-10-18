@@ -1,0 +1,52 @@
+operations:
+
+  #####################################
+  #### Endpoint: DELETE /pet/{petId}
+  #####################################
+  DELETE /pet/{petId}:
+    fulfillments:
+
+      - name: check_pets
+        type: read
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: SELECT id FROM pets.pets WHERE id = ?
+              parameters:
+                - param: PARAM(petId)
+        exceptions:
+          - if: VALUE(check_pets, $[0].id) == NULL()
+            statuscode: 400
+            message: Invalid pet value
+
+      - name: delete_pets
+        type: update
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: DELETE FROM pets.pets WHERE id = ?
+              parameters:
+                - param: PARAM(petId)
+
+      - name: delete_tags
+        type: update
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: DELETE FROM pets.pets_tags WHERE pet_id = ?
+              parameters:
+                - param: PARAM(petId)
+
+      - name: delete_images
+        type: update
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: DELETE FROM pets.pets_images WHERE pet_id = ?
+              parameters:
+                - param: PARAM(petId)
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true

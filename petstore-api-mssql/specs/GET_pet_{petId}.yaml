@@ -1,0 +1,64 @@
+operations:
+
+  #####################################
+  #### Endpoint: GET /pet/{petId}
+  #####################################
+  GET /pet/{petId}:
+    fulfillments:
+      - name: pets
+        type: read
+        datasource: mydatabase
+        instructions:
+          - sql:
+              query: SELECT p.*, c.* FROM pets.pets as p INNER JOIN pets.pets_category as c ON (p.category_id = c.id) WHERE p.id = ?
+              parameters:
+                - param: PARAM(petId)
+        exceptions:
+          # Check if the select statement did receive exactly one entry
+          - if: SIZE(VALUE(pets, $)) != INTEGER(1)
+            statuscode: 404
+            message: No pet found
+
+      - name: pets_tags
+        type: read
+        datasource: mydatabase
+        index: VALUE(loop_pets, $[0].id)
+        instructions:
+          - sql:
+              query: SELECT * FROM pets.pets_tags WHERE pet_id = ?
+              parameters:
+                - param: PARAM(petId)
+
+      - name: pets_images
+        type: read
+        datasource: mydatabase
+        index: VALUE(loop_pets, $.id)
+        instructions:
+          - sql:
+              query: SELECT * FROM pets.pets_images WHERE pet_id = ?
+              parameters:
+                - param: PARAM(petId)
+
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true
+        schema:
+          object: VALUE(pets, $[0])
+          item:
+            id: VALUE(@, $.id)
+            name: VALUE(@, $.nickname)
+            category:
+              item:
+                id: VALUE(@, $.category_id)
+                name: VALUE(@, $.label)
+            tags:
+              list: VALUE(pets_tags, $)
+              item:
+                id: VALUE(@, $.id)
+                name: VALUE(@, $.name)
+            photoURLs:
+              list: VALUE(pets_images, $)
+              item: VALUE(@, $.imageurl)
+            status: VALUE(@, $.status)

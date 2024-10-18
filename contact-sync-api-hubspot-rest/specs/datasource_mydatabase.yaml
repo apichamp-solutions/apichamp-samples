@@ -1,0 +1,7 @@
+datasources:
+
+  mydatabase:
+    type: db
+    url: jdbc:mariadb://mariadb-contacts:3306/sample-contacts
+    user: root
+    password: samplepwd

@@ -1,0 +1,10 @@
+specification: 1.0
+
+authentications:
+  basicauth:
+    type: basicauth
+    user: demo
+    password: demo
+
+settings:
+  debug: true

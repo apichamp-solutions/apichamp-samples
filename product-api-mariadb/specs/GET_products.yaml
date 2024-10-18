@@ -1,5 +1,3 @@
-specification: 1.0
-
 operations:
 
   'get /products':
@@ -9,8 +7,12 @@ operations:
         datasource: demodb
         instructions:
           - if: PARAM(category) != NULL()
-            query: SELECT id, name, details, category, price, stock FROM product WHERE category = :[PARAM(category)]
-          - query: SELECT id, name, details, category, price, stock FROM product
+            sql:
+              query: SELECT id, name, details, category, price, stock FROM product WHERE category = ?
+              parameters:
+                - param: PARAM(category)
+          - sql:
+              query: SELECT id, name, details, category, price, stock FROM product
 
     responses:
       - name: success
@@ -25,14 +27,3 @@ operations:
             category: VALUE(@, $.category)
             price: VALUE(@, $.price)
             stock: VALUE(@, $.stock)
-
-datasources:
-
-  demodb:
-    type: db
-    url: jdbc:mariadb://mariadb-product:3306/sample-products
-    user: root
-    password: samplepwd
-
-settings:
-  debug: true

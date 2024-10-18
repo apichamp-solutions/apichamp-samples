@@ -1,0 +1,74 @@
+operations:
+
+  #####################################
+  #### Endpoint: GET /contact/sync
+  #####################################
+  'get /contact/sync':
+    fulfillments:
+      # Retrieve contact list from hubspot
+      - name: hubspot
+        type: READ
+        datasource: hubspot-api
+        instructions:
+          - request:
+              url: "https://api.hubapi.com/crm/v3/objects/contacts?limit=10&archived=false"
+              httpType: GET
+              header:
+                - "Authorization: ${PARAM(Hubspot-Auth)}"
+              allowFailure: true
+        exceptions:
+          # Throw exception if results id is 1
+          - if: STATUSCODE(hubspot) != INTEGER(200)
+            statuscode: 500
+            message: The hubspot API did deliver an error
+          - if: SIZE(VALUE(hubspot, $.results)) <= INTEGER(0)
+            statuscode: 404
+            message: No contact available
+
+      - name: loop
+        type: LOOP
+        loop: VALUE(hubspot, $.results)
+        fulfillments:
+
+          # Check if contact already exists
+          - name: available-contact
+            type: READ
+            datasource: mydatabase
+            instructions:
+              - sql:
+                  query: SELECT * FROM contacts WHERE email like ?
+                  parameters:
+                    - param: VALUE(loop, $.properties.email)
+
+          # Insert it not exist yet
+          - name: contact-insert
+            type: UPDATE
+            datasource: mydatabase
+            if: VALUE(available-contact, $[0].id) == NULL())
+            instructions:
+              - sql:
+                  query: INSERT INTO contacts (id, firstname, lastname, email) VALUES (?,?,?,?)
+                  parameters:
+                      - param: VALUE(loop, $.id)
+                      - param: VALUE(loop, $.properties.firstname)
+                      - param: VALUE(loop, $.properties.lastname)
+                      - param: VALUE(loop, $.properties.email)
+
+          # Update entry if it exists
+          - name: contact-update
+            type: UPDATE
+            datasource: mydatabase
+            if: VALUE(available-contact, $[0].id) != NULL())
+            instructions:
+              - sql:
+                  query: UPDATE contacts SET firstname = ?, lastname = ?, email = ? WHERE id = ?
+                  parameters:
+                      - param: VALUE(loop, $.properties.firstname)
+                      - param: VALUE(loop, $.properties.lastname)
+                      - param: VALUE(loop, $.properties.email)
+                      - param: VALUE(loop, $.id)
+
+    responses:
+      - name: success
+        statuscode: 200
+        default: true

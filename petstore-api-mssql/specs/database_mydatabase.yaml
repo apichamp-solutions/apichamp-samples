@@ -1,0 +1,7 @@
+datasources:
+
+  mydatabase:
+    type: db
+    url: jdbc:sqlserver://mssql-petstore;encrypt=false
+    user: sa
+    password: samplepwd!A1
